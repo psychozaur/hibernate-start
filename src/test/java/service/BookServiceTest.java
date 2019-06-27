@@ -1,10 +1,18 @@
 package service;
 
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import workshop.spring5.persistence.hibernate.config.MainConfig;
 import workshop.spring5.persistence.hibernate.model.Author;
 import workshop.spring5.persistence.hibernate.model.Book;
+import workshop.spring5.persistence.hibernate.service.BookService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -12,9 +20,15 @@ import java.util.List;
     @RunWith(SpringJUnit4ClassRunner.class)
     @ContextConfiguration wskazuje na klasę konfiguracyjną projektu
  */
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = MainConfig.class)
 public class BookServiceTest {
 
+    @Autowired
+    BookService bookService;
 
+    @Test
     public void shouldSaveABook() {
         /*
             TODO 20 napisz test dla metody save z BookService
@@ -22,6 +36,7 @@ public class BookServiceTest {
             Uruchom test.
          */
 
+        bookService.save(new Book("VALIS","IDK",new Author("Philip","Dick", Arrays.asList(new Book()))));
     }
 
     public void shouldNotFindABook() {

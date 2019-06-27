@@ -1,5 +1,8 @@
 package workshop.spring5.persistence.hibernate.dao;
 
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import workshop.spring5.persistence.hibernate.model.Book;
 
 import java.util.List;
@@ -7,6 +10,8 @@ import java.util.List;
 /*
     TODO 14 oznacz klasę jako komponent Spring'a (repozytorium)
  */
+
+@Repository
 public class BookRepositoryImpl implements BookRepository {
     /*
         TODO 15 wstrzyknij org.hibernate.SessionFactory
@@ -14,11 +19,20 @@ public class BookRepositoryImpl implements BookRepository {
         wywoływane na obiekcie Session, pobranego za pomocą sessionFactory.getCurrentSession()
      */
 
+    SessionFactory sessionFactory;
+
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public Long save(Book book) {
         /*
             TODO 18 użyj metody save
          */
-        return null;
+        Long id = (Long) sessionFactory.getCurrentSession().save(book);
+
+        return id;
     }
 
     public Book get(Long id) {
