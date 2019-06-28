@@ -26,7 +26,7 @@ import java.util.List;
 public class BookServiceTest {
 
     @Autowired
-    BookService bookService;
+    private BookService bookService;
 
     @Test
     public void shouldSaveABook() {

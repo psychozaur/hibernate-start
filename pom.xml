@@ -6,16 +6,31 @@
 	<groupId>workshop.spring5.persistence</groupId>
 	<artifactId>hibernate-start</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<packaging>jar</packaging>
 
 	<name>jdbc-template</name>
 	<description>Demo project for Spring Hibernate</description>
 
 	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.4-1200-jdbc41</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.197</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -26,7 +41,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>5.0.8.RELEASE</version>
+			<version>5.1.0.RELEASE</version>
 		</dependency>
 
 		<!-- TODO 1 -->

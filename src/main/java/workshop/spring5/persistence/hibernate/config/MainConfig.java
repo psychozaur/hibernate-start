@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
+
 /*
     TODO 2 - dodaj adnotacje
     @EnableTransactionManagement
@@ -22,17 +22,18 @@ import java.util.Properties;
                                 workshop.spring5.persistence.hibernate,
                                 workshop.spring5.persistence.hibernate.service
  */
+@Configuration
 @EnableTransactionManagement
-@ComponentScan({"workshop.spring5.persistence.hibernate", "workshop.spring5.persistence.hibernate.service"})
+@ComponentScan(basePackages = {"workshop.spring5.persistence.hibernate.dao", "workshop.spring5.persistence.hibernate.service"})
 public class MainConfig {
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/bookee");
-        dataSource.setUsername("my_user");
-        dataSource.setPassword("my_password");
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:tcp://localhost/~/h2/my-dbs/persons.db");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("qwerty");
         return dataSource;
     }
 
@@ -49,7 +50,7 @@ public class MainConfig {
      */
     private final Properties hibernateProperties(){
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl","create-drop");
+        properties.setProperty("hibernate.hbm2ddl.auto","create-drop");
         properties.setProperty("hibernate.dialect","org.hibernate.dialect.H2Dialect");
 
         return properties;
@@ -90,6 +91,9 @@ public class MainConfig {
 
     @Bean
     public PlatformTransactionManager hibernateTransactionManager(){
-        return new HibernateTransactionManager(sessionFactory().getObject());
+        HibernateTransactionManager transactionManager
+                = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory().getObject());
+        return transactionManager;
     }
 }
