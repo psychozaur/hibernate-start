@@ -41,7 +41,7 @@ public class BookRepositoryImpl implements BookRepository {
           Zaimplementuj metodę w serwisie
           Napisz test mmetody serwisowej
         */
-        return null;
+        return sessionFactory.getCurrentSession().get(Book.class, id);
     }
 
     public List<Book> list() {
@@ -50,7 +50,7 @@ public class BookRepositoryImpl implements BookRepository {
             Zaimplementuj metodę w serwisie
             Napisz test mmetody serwisowej
          */
-        return null;
+        return sessionFactory.getCurrentSession().createQuery("from Book").list();
     }
 
     public void update(Book book) {

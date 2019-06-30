@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /*
     TODO 13 adnotacje dla testowej klasy
     @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,8 +37,16 @@ public class BookServiceTest {
             Upewnij się, że została uruchomiona baza postgres.
             Uruchom test.
          */
+        // Given
+        int booksInDb = bookService.list().size();
+        Book book = createBookWithAuthor(booksInDb + 1);
 
-        bookService.save(new Book("VALIS","IDK",new Author("Philip","Dick", Arrays.asList(new Book()))));
+        // When
+        bookService.save(book);
+
+        // Then
+        assertEquals(booksInDb + 1, bookService.list().size());
+
     }
 
     public void shouldNotFindABook() {
@@ -72,12 +82,12 @@ public class BookServiceTest {
     }
 
     // ============================================= helper methods ==============================================//
-//    private Book createBookWithAuthor(int bookNumber) {
-//        Author author = new Author("Author_name_"+bookNumber, "Author_lastName_"+bookNumber, null);
-//        Book book = new Book("Tytuł_"+bookNumber, "ISBN_"+bookNumber, author);
-//        List<Book> books = new ArrayList<>();
-//        books.add(book);
-//        author.setBooks(books);
-//        return book;
-//    }
+    private Book createBookWithAuthor(int bookNumber) {
+        Author author = new Author("Author_name_"+bookNumber, "Author_lastName_"+bookNumber, null);
+        Book book = new Book("Tytuł_"+bookNumber, "ISBN_"+bookNumber, author);
+        List<Book> books = new ArrayList<>();
+        books.add(book);
+        author.setBooks(books);
+        return book;
+    }
 }
