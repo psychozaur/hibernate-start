@@ -40,7 +40,7 @@ public class BookServiceImpl implements BookService {
     }
 
     public Book findById(long id) {
-        return null;
+        return bookRepository.get(id);
     }
 
     public List<Book> list() {
@@ -49,11 +49,11 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     public void update(Book book) {
-
+        bookRepository.update(book);
     }
 
     @Transactional
     public void deleteById(long id) {
-
+        bookRepository.delete(id);
     }
 }

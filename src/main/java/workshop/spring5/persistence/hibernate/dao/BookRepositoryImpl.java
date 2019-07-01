@@ -59,7 +59,7 @@ public class BookRepositoryImpl implements BookRepository {
             Zaimplementuj metodę w serwisie
             Napisz test mmetody serwisowej
          */
-
+        sessionFactory.getCurrentSession().update(book);
     }
 
     public void delete(Long id) {
@@ -69,6 +69,7 @@ public class BookRepositoryImpl implements BookRepository {
             Zaimplementuj metodę w serwisie
             Napisz test mmetody serwisowej
          */
-
+        Book toDelete = sessionFactory.getCurrentSession().byId(Book.class).load(id);
+        sessionFactory.getCurrentSession().delete(toDelete);
     }
 }

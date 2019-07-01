@@ -33,7 +33,7 @@ public class Book {
         TODO 9 adnotacja dla pola author
         @ManyToOne, cascade - CascadeType.ALL
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Author author;
     /*
         TODO 10 konstruktory

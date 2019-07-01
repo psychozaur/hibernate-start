@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /*
     TODO 13 adnotacje dla testowej klasy
@@ -49,35 +49,91 @@ public class BookServiceTest {
 
     }
 
+    @Test
     public void shouldNotFindABook() {
+        // Given
+        long nonExistingId = 1223213232L;
+
+        // When
+        Book result = bookService.findById(nonExistingId);
+
+        // Then
+        assertNull(result);
 
     }
 
+    @Test
     public void shouldFindABook() {
+        // Given
+        int nextId = bookService.list().size() + 1;
+        bookService.save(createBookWithAuthor(nextId));
+
+        // When
+        Book result = bookService.findById(nextId);
+
+        // Then
+        assertNotNull(result);
 
     }
 
+    @Test
     public void shouldListAllAfterSave() {
+        // Given
+        int nextId = bookService.list().size() + 1;
+        bookService.save(createBookWithAuthor(nextId));
+        List<Book> fromLoop = new ArrayList<>();
+        for (int i = 1; i <= nextId; i++){
+            fromLoop.add(bookService.findById(i));
+        }
+
+        // When
+        List<Book> results = bookService.list();
+
+        // Then
+        System.out.println("fromLoop: " + fromLoop.toString() + ", results: " + results.toString());
+        assertEquals(fromLoop.get(0), results.get(0));
 
     }
 
+    @Test
     public void shouldUpdateBook() {
+        // Given
+
+        // When
+
+        // Then
 
     }
 
-
-
+    @Test
     public void shouldDeleteBook() {
+        // Given
+
+        // When
+
+        // Then
 
     }
     /*
         TODO 24 zaimplementuj poniższe testy (update i delete dla nieistniejącej encji / id)
      */
+    @Test
     public void shouldThrowExceptionForUpdateWithNonExistingBook() {
+        // Given
+
+        // When
+
+        // Then
 
     }
 
+    @Test
     public void shoulddThrowExceptionForDeleteWithNonExistingId() {
+        // Given
+
+        // When
+
+        // Then
 
     }
 
