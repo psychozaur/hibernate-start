@@ -79,39 +79,54 @@ public class BookServiceTest {
     @Test
     public void shouldListAllAfterSave() {
         // Given
-        int nextId = bookService.list().size() + 1;
-        bookService.save(createBookWithAuthor(nextId));
-        List<Book> fromLoop = new ArrayList<>();
-        for (int i = 1; i <= nextId; i++){
-            fromLoop.add(bookService.findById(i));
-        }
+        int listSize = bookService.list().size();
+        int _1stBookNumber = listSize+1;
+        int _2ndBookNumber = listSize+2;
+        Book book1 = createBookWithAuthor(_1stBookNumber);
+        Book book2 = createBookWithAuthor(_2ndBookNumber);
+        bookService.save(book1);
+        bookService.save(book2);
 
         // When
-        List<Book> results = bookService.list();
+        int afterSaveListSize = bookService.list().size();
 
         // Then
-        System.out.println("fromLoop: " + fromLoop.toString() + ", results: " + results.toString());
-        assertEquals(fromLoop.get(0), results.get(0));
+        assertEquals(listSize+2, afterSaveListSize);
 
     }
 
     @Test
     public void shouldUpdateBook() {
         // Given
+        int booksInDb = bookService.list().size();
+        int _1stBookNumber = booksInDb+1;
+        Book book1 = createBookWithAuthor(_1stBookNumber);
+        bookService.save(book1);
+        book1.setTitle("Dziady");
 
         // When
+        bookService.update(book1);
+        int afterSaveListSize = bookService.list().size();
 
         // Then
+        assertEquals(booksInDb+1, afterSaveListSize);
 
     }
 
     @Test
     public void shouldDeleteBook() {
         // Given
+        int booksInDb = bookService.list().size();
+        int id = booksInDb+1;
+        Book book1 = createBookWithAuthor(id);
+        bookService.save(book1);
 
         // When
+        bookService.deleteById(id);
+        int afterSaveListSize = bookService.list().size();
 
         // Then
+        assertEquals(booksInDb, afterSaveListSize);
 
     }
     /*
