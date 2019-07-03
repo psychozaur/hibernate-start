@@ -1,6 +1,7 @@
 package service;
 
 
+import org.hibernate.TransientObjectException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,7 @@ public class BookServiceTest {
         int booksInDb = bookService.list().size();
         int _1stBookNumber = booksInDb+1;
         Book book1 = createBookWithAuthor(_1stBookNumber);
-        bookService.save(book1);
+        Long savedId = bookService.save(book1);
         book1.setTitle("Dziady");
 
         // When
@@ -109,7 +110,7 @@ public class BookServiceTest {
         int afterSaveListSize = bookService.list().size();
 
         // Then
-        assertEquals(booksInDb+1, afterSaveListSize);
+        assertEquals(book1.getTitle(), bookService.findById(savedId).getTitle());
 
     }
 
@@ -119,36 +120,56 @@ public class BookServiceTest {
         int booksInDb = bookService.list().size();
         int id = booksInDb+1;
         Book book1 = createBookWithAuthor(id);
-        bookService.save(book1);
+        Long savedId = bookService.save(book1);
+
+        assertNotNull(bookService.findById(savedId));
 
         // When
         bookService.deleteById(id);
-        int afterSaveListSize = bookService.list().size();
 
         // Then
-        assertEquals(booksInDb, afterSaveListSize);
+        assertNull(bookService.findById(savedId));
 
     }
     /*
         TODO 24 zaimplementuj poniższe testy (update i delete dla nieistniejącej encji / id)
      */
-    @Test
+    @Test(expected = TransientObjectException.class)
     public void shouldThrowExceptionForUpdateWithNonExistingBook() {
         // Given
+        int booksInDb = bookService.list().size();
+        int id = booksInDb+1;
+        int id2 = booksInDb+2;
+        Book book1 = createBookWithAuthor(id);
+        Book book2 = createBookWithAuthor(id2);
+        bookService.save(book1);
 
         // When
+        bookService.update(book2);
+        int afterSaveListSize = bookService.list().size();
 
         // Then
+        assertEquals(booksInDb+1, afterSaveListSize);
 
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void shoulddThrowExceptionForDeleteWithNonExistingId() {
         // Given
+        long nonExistingId = 23221312L;
+
+        int booksInDb = bookService.list().size();
+        int id = booksInDb+1;
+        Book book1 = createBookWithAuthor(id);
+        bookService.save(book1);
 
         // When
+        bookService.deleteById(nonExistingId);
+        int afterSaveListSize = bookService.list().size();
 
         // Then
+        assertNull(bookService.findById(nonExistingId));
+        assertEquals(booksInDb, afterSaveListSize);
 
     }
 

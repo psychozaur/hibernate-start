@@ -19,7 +19,7 @@ public class BookRepositoryImpl implements BookRepository {
         wywoływane na obiekcie Session, pobranego za pomocą sessionFactory.getCurrentSession()
      */
 
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
